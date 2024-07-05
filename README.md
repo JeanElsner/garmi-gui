@@ -5,8 +5,12 @@
 [![PyPI version][pypi-version]][pypi-link]
 [![PyPI platforms][pypi-platforms]][pypi-link] [![codecov][cov-badge]][cov-link]
 
-GUI for the GARMI robot with remote control to show images, play videos and
-sounds, and render text.
+<p align="center">
+	<img src="./.github/gui.gif">
+</p>
+
+GUI for the GARMI robot's face screen with remote control to show images, play
+videos and sounds, and render text.
 
 ## Install
 
