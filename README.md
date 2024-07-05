@@ -48,7 +48,7 @@ hostname = "localhost"
 port = 8000
 
 server_url = f"http://{hostname}:{port}"
-proxy = xmlrpc.client.ServerProxy(server_url)
+proxy = client.ServerProxy(server_url)
 
 proxy.show_image("kizaru.png")
 proxy.play_sound("success.wav")
