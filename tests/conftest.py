@@ -4,7 +4,6 @@ import argparse
 from unittest import mock
 
 import pytest
-import pygame
 
 
 @pytest.fixture(autouse=True)
