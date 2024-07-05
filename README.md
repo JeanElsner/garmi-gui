@@ -2,26 +2,74 @@
 
 [![Actions Status][actions-badge]][actions-link]
 [![Documentation Status][rtd-badge]][rtd-link]
-
 [![PyPI version][pypi-version]][pypi-link]
-[![Conda-Forge][conda-badge]][conda-link]
-[![PyPI platforms][pypi-platforms]][pypi-link]
+[![PyPI platforms][pypi-platforms]][pypi-link] [![codecov][cov-badge]][cov-link]
 
-[![GitHub Discussion][github-discussions-badge]][github-discussions-link]
+GUI for the GARMI robot with remote control to show images, play videos and
+sounds, and render text.
+
+## Install
+
+To install run
+
+```
+pip install garmi-gui
+```
+
+or if you're working with the code in a local clone of the repository
+
+```
+pip install -v -e .[dev]
+```
+
+Checkout the [contribution guide](./.github/CONTRIBUTING.md) for more details.
+
+## Run
+
+The Python package installs executables for convenience. You can start the GUI
+by simply running `garmi-gui`. This will start the GUI in fullscreen mode. For
+development purposes it is convenient to run the GUI in windowed mode, you can
+do so by executing `garmi-gui --windowed`.
+
+## Remote Control
+
+The GUI is controlled remotely using xmlrpc. There is a convenience terminal
+script to quickly execute GUI functions. You can run the tool by executing
+`garmi-gui-control --hostname <gui-hostname>` where <gui-hostname> is the
+hostname of the computer running the GUI.
+
+To control the GUI from Python simply connect with an xmlrpc client and call the
+remote functions like this:
+
+```
+from xmlrpc import client
+
+hostname = "localhost"
+port = 8000
+
+server_url = f"http://{hostname}:{port}"
+proxy = xmlrpc.client.ServerProxy(server_url)
+
+proxy.show_image("kizaru.png")
+proxy.play_sound("success.wav")
+```
+
+You may specify an absolute path to a file on the computer running the GUI,
+relative paths are evaluated relative to the
+[resources](https://github.com/JeanElsner/garmi-gui/tree/main/src/garmi_gui/resources)
+directory. Checkout the documentation or the control script for a complete list
+of possible commands.
 
 <!-- SPHINX-START -->
 
 <!-- prettier-ignore-start -->
-[actions-badge]:            https://github.com/JeanElsner/garmi-gui/workflows/CI/badge.svg
+[actions-badge]:            https://img.shields.io/github/actions/workflow/status/JeanElsner/garmi-gui/ci.yml
 [actions-link]:             https://github.com/JeanElsner/garmi-gui/actions
-[conda-badge]:              https://img.shields.io/conda/vn/conda-forge/garmi-gui
-[conda-link]:               https://github.com/conda-forge/garmi-gui-feedstock
-[github-discussions-badge]: https://img.shields.io/static/v1?label=Discussions&message=Ask&color=blue&logo=github
-[github-discussions-link]:  https://github.com/JeanElsner/garmi-gui/discussions
 [pypi-link]:                https://pypi.org/project/garmi-gui/
 [pypi-platforms]:           https://img.shields.io/pypi/pyversions/garmi-gui
 [pypi-version]:             https://img.shields.io/pypi/v/garmi-gui
 [rtd-badge]:                https://readthedocs.org/projects/garmi-gui/badge/?version=latest
 [rtd-link]:                 https://garmi-gui.readthedocs.io/en/latest/?badge=latest
-
+[cov-badge]:                https://img.shields.io/codecov/c/gh/JeanElsner/garmi-gui
+[cov-link]:                 https://app.codecov.io/gh/JeanElsner/garmi-gui
 <!-- prettier-ignore-end -->
