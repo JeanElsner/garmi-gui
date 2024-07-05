@@ -1,6 +1,10 @@
+from __future__ import annotations
+
 import os
 import time
+
 import pytest
+
 from garmi_gui import gui
 
 # set SDL to use the dummy NULL video driver,
@@ -20,10 +24,9 @@ def test_gui():
     time.sleep(1)
     gui_instance.show_text("Test", color=(255, 255, 255), font_size=10)
     time.sleep(0.1)
-    gui_instance.render_text("line1\nline2\nline3",
-                             speed=15,
-                             color=(255, 0, 0),
-                             font_size=50)
+    gui_instance.render_text(
+        "line1\nline2\nline3", speed=15, color=(255, 0, 0), font_size=50
+    )
     time.sleep(1)
     assert gui_instance.process_path("/absolute/path") == "/absolute/path"
     assert gui_instance.process_path("relative/path") != "relative/path"
