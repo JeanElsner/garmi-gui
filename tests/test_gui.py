@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import pathlib
 import time
 
 import pytest
@@ -29,7 +30,9 @@ def test_gui():
         "line1\nline2\nline3", speed=15, color=(255, 0, 0), font_size=50
     )
     time.sleep(1)
-    assert gui_instance.process_path("/absolute/path") == "/absolute/path"
+    assert gui_instance.process_path("/absolute/path") == str(
+        pathlib.Path("/absolute/path").absolute()
+    )
     assert gui_instance.process_path("relative/path") != "relative/path"
     assert "resources" in gui_instance.process_path("relative/path")
     with pytest.raises(FileNotFoundError):
