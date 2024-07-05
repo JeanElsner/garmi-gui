@@ -17,9 +17,10 @@ def test_gui():
 
     gui_instance.show_image("eyes.png")
     time.sleep(0.1)
-    gui_instance.play_sound("confirm.wav")
-    time.sleep(0.1)
-    gui_instance.stop_sound()
+    # Cannot run pygame.mixer on git runner
+    # gui_instance.play_sound("confirm.wav")
+    # time.sleep(0.1)
+    # gui_instance.stop_sound()
     gui_instance.show_video("simulation.mp4")
     time.sleep(1)
     gui_instance.show_text("Test", color=(255, 255, 255), font_size=10)
