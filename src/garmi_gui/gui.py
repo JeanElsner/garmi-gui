@@ -153,15 +153,18 @@ class GUI:
         self.screen_initialized.set()
 
         while self.running:
-            for event in pygame.event.get():
-                if (
-                    event.type == pygame.QUIT
-                    or event.type == pygame.KEYDOWN
-                    and event.key == pygame.K_ESCAPE
-                ):
-                    self.running = False
+            try:
+                for event in pygame.event.get():
+                    if (
+                        event.type == pygame.QUIT
+                        or event.type == pygame.KEYDOWN
+                        and event.key == pygame.K_ESCAPE
+                    ):
+                        self.running = False
+                pygame.display.flip()
+            except pygame.error:
+                self.running = False
 
-            pygame.display.flip()
             self.clock.tick(10)  # Throttle loop to reduce CPU usage
 
         self.stop()
