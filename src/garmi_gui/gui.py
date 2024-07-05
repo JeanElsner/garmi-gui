@@ -101,9 +101,12 @@ class GUI:
         self.screen.blit(image, (0, 0))
 
     def show_video(self, video_path: str) -> None:
+        video_path = self.process_path(video_path)
         self.stop_video()
+        if not pathlib.Path(video_path).exists():
+            raise FileNotFoundError()
         self.video_thread = threading.Thread(
-            target=self._play_video, args=(self.process_path(video_path),)
+            target=self._play_video, args=(video_path,)
         )
         self.video_thread.start()
 
