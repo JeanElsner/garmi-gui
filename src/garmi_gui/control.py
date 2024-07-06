@@ -6,6 +6,12 @@ import xmlrpc.client
 
 
 def main() -> None:
+    """Simple terminal program that allows you to connect to a GARMI GUI remotely
+    and execute commands. If you installed the package this function is installed
+    as an executable that can be called as
+    ``garmi-gui --hostname <gui-hostname> --port <gui-port>`` to connect with a
+    remote GUI running on the given hostname and port respectively.
+    """
     parser = argparse.ArgumentParser(description="Remote GUI Controller")
     parser.add_argument(
         "--hostname", type=str, default="localhost", help="Hostname of the remote GUI"
@@ -40,7 +46,14 @@ def main() -> None:
             proxy.show_video(video_path)
             print(f"Video '{video_path}' displayed.")
         elif choice == "4":
-            text = input("Enter the text to display: ")
+            print("Enter the text to display: ")
+            lines = []
+            while True:
+                line = input()
+                if line == "":
+                    break
+                lines.append(line)
+            text = "\n".join(lines)
             color_str = input("Enter the color (default is 0,255,255 cyan): ")
             font_size_str = input("Enter the font size (default is 100): ")
             color = (
