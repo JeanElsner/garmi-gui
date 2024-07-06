@@ -39,7 +39,7 @@ do so by executing `garmi-gui --windowed`.
 
 The GUI is controlled remotely using xmlrpc. There is a convenience terminal
 script to quickly execute GUI functions. You can run the tool by executing
-`garmi-gui-control --hostname <gui-hostname>` where <gui-hostname> is the
+`garmi-gui-control --hostname <gui-hostname>` where \<gui-hostname\> is the
 hostname of the computer running the GUI.
 
 To control the GUI from Python simply connect with an xmlrpc client and call the
