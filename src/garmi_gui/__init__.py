@@ -1,7 +1,8 @@
 """
 Copyright (c) 2024 Jean Elsner. All rights reserved.
 
-garmi-gui: The GARMI gui.
+garmi-gui: GUI for the GARMI robot's face screen with remote control
+to show images, play videos and sounds, and render text.
 """
 
 from __future__ import annotations

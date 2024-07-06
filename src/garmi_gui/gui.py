@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import pathlib
+import textwrap
 import threading
 from xmlrpc import server
 
@@ -23,6 +24,7 @@ class GUI:
         self.sound: None | pygame.mixer.Sound = None
         self.stop_video_event = threading.Event()
         self.running = True
+        self.mux = threading.Lock()
 
         self.gui_thread = threading.Thread(target=self._run)
         self.gui_thread.start()
@@ -49,18 +51,40 @@ class GUI:
         if self.sound is not None:
             self.sound.stop()
 
+    def wrap_text(self, text: str, font_size: int) -> str:
+        proc: list[str] = []
+        for line in text.splitlines():
+            wrapped = textwrap.wrap(
+                line,
+                int(100 / font_size * 35 * self.screen.get_rect().width / 1280),
+                drop_whitespace=False,
+                replace_whitespace=False,
+            )
+            if wrapped:
+                proc.extend(wrapped)
+            else:
+                proc.append("")
+        return str.join("\n", proc)
+
     def show_text(
         self,
         text: str,
         color: tuple[int, int, int] = (0, 255, 255),
         font_size: int = 100,
     ) -> None:
+        text = self.wrap_text(text, font_size)
         self.stop_video()
         self.screen.fill((0, 0, 0))
         font = pygame.font.Font(None, font_size)
-        text_surface = font.render(text, True, color)
-        text_rect = text_surface.get_rect(center=self.screen.get_rect().center)
-        self.screen.blit(text_surface, text_rect)
+        lines = text.splitlines()
+        bias_y = (len(lines) - 1) / 2 * font_size
+        with self.mux:
+            for line_number, line in enumerate(lines):
+                text_surface = font.render(line, True, color)
+                pos = list(self.screen.get_rect().center)
+                pos[1] += int(font_size * line_number - bias_y)
+                text_rect = text_surface.get_rect(center=pos)
+                self.screen.blit(text_surface, text_rect)
 
     def render_text(
         self,
@@ -70,6 +94,7 @@ class GUI:
         font_size: int = 100,
     ) -> None:
         self.stop_video()
+        text = self.wrap_text(text, font_size)
 
         def render() -> None:
             font = pygame.font.Font(None, font_size)
@@ -81,15 +106,16 @@ class GUI:
                 for char in line:
                     if not self.running:
                         break
-                    self.screen.fill((0, 0, 0))
-                    for surface, rect in rendered_lines:
-                        self.screen.blit(surface, rect)
                     current_text += char
                     text_surface = font.render(current_text, True, color)
                     pos = list(self.screen.get_rect().center)
                     pos[1] += int(font_size * line_number - bias_y)
                     text_rect = text_surface.get_rect(center=pos)
-                    self.screen.blit(text_surface, text_rect)
+                    with self.mux:
+                        self.screen.fill((0, 0, 0))
+                        for surface, rect in rendered_lines:
+                            self.screen.blit(surface, rect)
+                        self.screen.blit(text_surface, text_rect)
                     self.clock.tick(speed)
                 rendered_lines.append((text_surface, text_rect))
 
@@ -99,7 +125,8 @@ class GUI:
         self.stop_video()
         image = pygame.image.load(self.process_path(image_path)).convert()
         image = pygame.transform.smoothscale(image, self.screen.get_size())
-        self.screen.blit(image, (0, 0))
+        with self.mux:
+            self.screen.blit(image, (0, 0))
 
     def show_video(self, video_path: str) -> None:
         video_path = self.process_path(video_path)
@@ -126,9 +153,10 @@ class GUI:
 
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             frame = pygame.image.frombuffer(frame.tobytes(), frame.shape[1::-1], "RGB")
-            self.screen.blit(
-                pygame.transform.smoothscale(frame, self.screen.get_size()), (0, 0)
-            )
+            with self.mux:
+                self.screen.blit(
+                    pygame.transform.smoothscale(frame, self.screen.get_size()), (0, 0)
+                )
 
             self.clock.tick(fps)
 
@@ -165,11 +193,12 @@ class GUI:
                         and event.key == pygame.K_ESCAPE
                     ):
                         self.running = False
-                pygame.display.flip()
+                with self.mux:
+                    pygame.display.flip()
             except pygame.error:
                 self.running = False
 
-            self.clock.tick(10)  # Throttle loop to reduce CPU usage
+            self.clock.tick(30)  # Throttle loop to reduce CPU usage
 
         self.stop()
 
