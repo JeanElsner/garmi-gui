@@ -6,7 +6,7 @@
 [![PyPI platforms][pypi-platforms]][pypi-link] [![codecov][cov-badge]][cov-link]
 
 <p align="center">
-	<img src="./.github/gui.gif">
+	<img src="https://raw.githubusercontent.com/JeanElsner/garmi-gui/main/.github/gui.gif">
 </p>
 
 GUI for the GARMI robot's face screen with remote control to show images, play
