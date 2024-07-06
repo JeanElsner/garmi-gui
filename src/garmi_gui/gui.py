@@ -14,8 +14,9 @@ RESOURCE_PATH = pathlib.Path(pathlib.Path(__file__).parent) / "resources"
 class GUI:
     """GUI for the GARMI robot face display."""
 
-    def __init__(self, port: int, fullscreen: bool = True):
+    def __init__(self, port: int, fullscreen: bool = True, testing: bool = False):
         self.fullscreen = fullscreen
+        self.testing = testing
         self.screen_initialized = threading.Event()
         self.video_thread: None | threading.Thread = None
         self.video_running = False
@@ -152,18 +153,18 @@ class GUI:
         pygame.display.flip()
         self.screen_initialized.set()
 
+        if self.testing:
+            return
+
         while self.running:
-            try:
-                for event in pygame.event.get():
-                    if (
-                        event.type == pygame.QUIT
-                        or event.type == pygame.KEYDOWN
-                        and event.key == pygame.K_ESCAPE
-                    ):
-                        self.running = False
-                pygame.display.flip()
-            except pygame.error:
-                self.running = False
+            for event in pygame.event.get():
+                if (
+                    event.type == pygame.QUIT
+                    or event.type == pygame.KEYDOWN
+                    and event.key == pygame.K_ESCAPE
+                ):
+                    self.running = False
+            pygame.display.flip()
 
             self.clock.tick(10)  # Throttle loop to reduce CPU usage
 

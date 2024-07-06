@@ -13,7 +13,7 @@ os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 
 def test_gui():
-    gui_instance = gui.GUI(8000)
+    gui_instance = gui.GUI(8000, testing=True)
 
     gui_instance.show_image("eyes.png")
     time.sleep(0.1)
