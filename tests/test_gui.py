@@ -13,7 +13,7 @@ os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 
 def test_gui():
-    gui_instance = gui.GUI(8000, testing=True)
+    gui_instance = gui.GUI(8000, fullscreen=False, testing=True)
 
     gui_instance.show_image("eyes.png")
     time.sleep(0.1)
@@ -36,5 +36,17 @@ def test_gui():
         gui_instance.show_image("unknown-image-path")
     with pytest.raises(FileNotFoundError):
         gui_instance.show_video("unknown-video-path")
+
+    assert (
+        len(
+            gui_instance.wrap_text(
+                "This text should be wrapped.", font_size=200
+            ).splitlines()
+        )
+        > 1
+    )
+
+    assert gui_instance.screen.get_rect().width == 1280
+    assert gui_instance.screen.get_rect().height == 960
 
     gui_instance.stop()
