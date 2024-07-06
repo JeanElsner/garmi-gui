@@ -54,7 +54,7 @@ port = 8000
 server_url = f"http://{hostname}:{port}"
 proxy = client.ServerProxy(server_url)
 
-proxy.show_image("kizaru.png")
+proxy.show_image("happy.png")
 proxy.play_sound("success.wav")
 ```
 
