@@ -13,7 +13,9 @@ RESOURCE_PATH = pathlib.Path(pathlib.Path(__file__).parent) / "resources"
 
 
 class GUI:
-    """GUI for the GARMI robot face display."""
+    """GUI for the GARMI robot face display.
+
+    The functions of this class are usually called remotely using xmlrpc."""
 
     def __init__(self, port: int, fullscreen: bool = True, testing: bool = False):
         self.fullscreen = fullscreen
@@ -37,6 +39,8 @@ class GUI:
         self.server_thread.start()
 
     def play_sound(self, sound_path: str) -> None:
+        """Plays a local sound file. If only a filename is given,
+        the file is searched for in the local resources directory."""
         self.stop_sound()
         self.sound = pygame.mixer.Sound(self.process_path(sound_path))
         self.sound.play()
@@ -48,10 +52,14 @@ class GUI:
         return str(RESOURCE_PATH / proc_path)
 
     def stop_sound(self) -> None:
+        """Stops playing sound if the GUI is currently playing a sound."""
         if self.sound is not None:
             self.sound.stop()
 
     def wrap_text(self, text: str, font_size: int) -> str:
+        """Wraps a textstring so it will fit into the screen when displayed.
+        :py:func:`render_text` and :py:func:`show_text` will apply this to
+        any text arguments before rendering."""
         proc: list[str] = []
         for line in text.splitlines():
             wrapped = textwrap.wrap(
@@ -72,6 +80,8 @@ class GUI:
         color: tuple[int, int, int] = (0, 255, 255),
         font_size: int = 100,
     ) -> None:
+        """Displays a text on the GUI in the given color and font size.
+        The displayed text may contain newline but is also wrapped to fit the display."""
         text = self.wrap_text(text, font_size)
         self.stop_video()
         self.screen.fill((0, 0, 0))
@@ -93,6 +103,9 @@ class GUI:
         color: tuple[int, int, int] = (0, 255, 255),
         font_size: int = 100,
     ) -> None:
+        """Renders text on the GUI character by character with the speed
+        given in characters per second. Wraps text as necessary. Otherwise
+        functions like :py:func:`show_text`."""
         self.stop_video()
         text = self.wrap_text(text, font_size)
 
@@ -122,6 +135,8 @@ class GUI:
         threading.Thread(target=render).start()
 
     def show_image(self, image_path: str) -> None:
+        """Displays a local image on the GUI. Relative paths are evaluated
+        relative to the resources directory."""
         self.stop_video()
         image = pygame.image.load(self.process_path(image_path)).convert()
         image = pygame.transform.smoothscale(image, self.screen.get_size())
@@ -129,6 +144,9 @@ class GUI:
             self.screen.blit(image, (0, 0))
 
     def show_video(self, video_path: str) -> None:
+        """Plays a local video and displays it on the GUI.
+        The video will loop until something else is displayed
+        or :py:func:`stop_video` is called."""
         video_path = self.process_path(video_path)
         self.stop_video()
         if not pathlib.Path(video_path).exists():
@@ -164,6 +182,7 @@ class GUI:
         self.video_running = False
 
     def stop_video(self) -> None:
+        """Stops video if a video is currently shown on the GUI."""
         if self.video_running and self.video_thread is not None:
             self.stop_video_event.set()
             self.video_thread.join()
@@ -203,6 +222,7 @@ class GUI:
         self.stop()
 
     def stop(self) -> None:
+        """Closes the GUI and stops any connected threads."""
         self.stop_video()
         self.server.shutdown()
         self.server_thread.join()
@@ -210,6 +230,9 @@ class GUI:
 
 
 def start_gui() -> None:
+    """This function is installed as an executable and can be run as
+    ``garmi-gui --port <port>`` where an xmlrpc server is started, listening
+    on the given port."""
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--port", "-p", type=int, default=8000, help="Port of the xmlrpc server."
