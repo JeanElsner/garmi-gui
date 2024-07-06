@@ -77,3 +77,9 @@ of possible commands.
 [cov-badge]:                https://img.shields.io/codecov/c/gh/JeanElsner/garmi-gui
 [cov-link]:                 https://app.codecov.io/gh/JeanElsner/garmi-gui
 <!-- prettier-ignore-end -->
+
+## Requirements
+
+To install this package you need pip >= 19.3 and SDL >= 2.0.8. You can upgrade
+pip by running `pip install --upgrade pip`. SDL can be installed on Ubuntu
+systems by executing `sudo apt-get install libsdl-dev` in a terminal.
