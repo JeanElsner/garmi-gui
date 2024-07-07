@@ -6,7 +6,7 @@
 [![PyPI platforms][pypi-platforms]][pypi-link] [![codecov][cov-badge]][cov-link]
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/JeanElsner/garmi-gui/main/.github/gui.gif">
+	<img src="https://raw.githubusercontent.com/tum-robotics/garmi-gui/main/.github/gui.gif">
 </p>
 
 GUI for the GARMI robot's face screen with remote control to show images, play
@@ -26,7 +26,9 @@ or if you're working with the code in a local clone of the repository
 pip install -v -e .[dev]
 ```
 
-Checkout the [contribution guide](./.github/CONTRIBUTING.md) for more details.
+Checkout the
+[contribution guide](https://github.com/tum-robotics/garmi-gui/blob/main/.github/CONTRIBUTING.md)
+for more details.
 
 ## Run
 
@@ -60,22 +62,22 @@ proxy.play_sound("success.wav")
 
 You may specify an absolute path to a file on the computer running the GUI,
 relative paths are evaluated relative to the
-[resources](https://github.com/JeanElsner/garmi-gui/tree/main/src/garmi_gui/resources)
+[resources](https://github.com/tum-robotics/garmi-gui/tree/main/src/garmi_gui/resources)
 directory. Checkout the documentation or the control script for a complete list
 of possible commands.
 
 <!-- SPHINX-START -->
 
 <!-- prettier-ignore-start -->
-[actions-badge]:            https://img.shields.io/github/actions/workflow/status/JeanElsner/garmi-gui/ci.yml
-[actions-link]:             https://github.com/JeanElsner/garmi-gui/actions
+[actions-badge]:            https://img.shields.io/github/actions/workflow/status/tum-robotics/garmi-gui/ci.yml
+[actions-link]:             https://github.com/tum-robotics/garmi-gui/actions
 [pypi-link]:                https://pypi.org/project/garmi-gui/
 [pypi-platforms]:           https://img.shields.io/pypi/pyversions/garmi-gui
 [pypi-version]:             https://img.shields.io/pypi/v/garmi-gui
 [rtd-badge]:                https://readthedocs.org/projects/garmi-gui/badge/?version=latest
 [rtd-link]:                 https://garmi-gui.readthedocs.io/en/latest/?badge=latest
-[cov-badge]:                https://img.shields.io/codecov/c/gh/JeanElsner/garmi-gui
-[cov-link]:                 https://app.codecov.io/gh/JeanElsner/garmi-gui
+[cov-badge]:                https://img.shields.io/codecov/c/gh/tum-robotics/garmi-gui
+[cov-link]:                 https://app.codecov.io/gh/tum-robotics/garmi-gui
 <!-- prettier-ignore-end -->
 
 ## Requirements

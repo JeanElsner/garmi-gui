@@ -5,8 +5,8 @@ backend: hatch
 email: jean.elsner@tum.de
 full_name: Jean Elsner
 license: Apache
-org: JeanElsner
+org: tum-robotics
 project_name: garmi-gui
-project_short_description: The GARMI gui.
-url: https://github.com/JeanElsner/garmi-gui
+project_short_description: GUI for the GARMI robot's face screen.
+url: https://github.com/tum-robotics/garmi-gui
 vcs: true

@@ -58,10 +58,10 @@ docs = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/JeanElsner/garmi-gui"
-"Bug Tracker" = "https://github.com/JeanElsner/garmi-gui/issues"
-Discussions = "https://github.com/JeanElsner/garmi-gui/discussions"
-Changelog = "https://github.com/JeanElsner/garmi-gui/releases"
+Homepage = "https://github.com/tum-robotics/garmi-gui"
+"Bug Tracker" = "https://github.com/tum-robotics/garmi-gui/issues"
+Discussions = "https://github.com/tum-robotics/garmi-gui/discussions"
+Changelog = "https://github.com/tum-robotics/garmi-gui/releases"
 
 
 [tool.hatch]
