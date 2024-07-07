@@ -4,6 +4,8 @@ from __future__ import annotations
 import argparse
 import xmlrpc.client
 
+import simple_term_menu  # type: ignore[import-not-found]
+
 
 def main() -> None:
     """Simple terminal program that allows you to connect to a GARMI GUI remotely
@@ -22,30 +24,25 @@ def main() -> None:
     server_url = f"http://{args.hostname}:{args.port}"
     proxy = xmlrpc.client.ServerProxy(server_url)
 
+    menu = simple_term_menu.TerminalMenu(
+        ["Show Image", "Play Sound", "Show Video", "Show Text", "Render Text", "Exit"]
+    )
     while True:
-        print("\nOptions:")
-        print("1. Show Image")
-        print("2. Play Sound")
-        print("3. Show Video")
-        print("4. Show Text")
-        print("5. Render Text")
-        print("6. Exit")
+        choice = menu.show()
 
-        choice = input("Select an option by entering the corresponding number: ")
-
-        if choice == "1":
+        if choice == 0:
             image_path = input("Enter the path to the image: ")
             proxy.show_image(image_path)
             print(f"Image '{image_path}' displayed.")
-        elif choice == "2":
+        elif choice == 1:
             sound_path = input("Enter the path to the sound file: ")
             proxy.play_sound(sound_path)
             print(f"Sound '{sound_path}' played.")
-        elif choice == "3":
+        elif choice == 2:
             video_path = input("Enter the path to the video file: ")
             proxy.show_video(video_path)
             print(f"Video '{video_path}' displayed.")
-        elif choice == "4":
+        elif choice == 3:
             print("Enter the text to display: ")
             lines = []
             while True:
@@ -62,7 +59,7 @@ def main() -> None:
             font_size = int(font_size_str) if font_size_str else 100
             proxy.show_text(text, color, font_size)
             print(f"Text '{text}' displayed.")
-        elif choice == "5":
+        elif choice == 4:
             print("Enter the text to render (finish input by entering an empty line):")
             lines = []
             while True:
@@ -83,7 +80,7 @@ def main() -> None:
             font_size = int(font_size_str) if font_size_str else 100
             proxy.render_text(text, speed, color, font_size)
             print(f"Text '{text}' rendered.")
-        elif choice == "6":
+        elif choice == 5:
             print("Exiting.")
             break
         else:
