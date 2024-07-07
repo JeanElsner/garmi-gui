@@ -32,7 +32,8 @@ classifiers = [
 dynamic = ["version"]
 dependencies = [
   "pygame >= 2.6",
-  "opencv-python >= 4.10"
+  "opencv-python >= 4.10",
+  "simple-term-menu",
 ]
 
 [project.scripts]
